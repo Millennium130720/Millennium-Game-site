@@ -1,40 +1,176 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <title>Millennium — Game as Art</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<title>Millennium — Game as Art</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      margin: 0;
-      font-family: "Pretendard", "Noto Sans KR", Arial, sans-serif;
-      background: #0b0b0b;
-      color: #eaeaea;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-    }
+<style>
+* { box-sizing: border-box; }
 
-    .language-switch {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 10;
-    }
+body {
+  margin: 0;
+  font-family: "Pretendard","Noto Sans KR",Arial,sans-serif;
+  background:#0b0b0b;
+  color:#eaeaea;
+}
 
-    .language-switch button {
-      background: none;
-      border: 1px solid #444;
-      color: #ccc;
-      padding: 6px 12px;
-      margin-left: 6px;
-      cursor: pointer;
-      font-size: 0.9rem;
-      transition: all 0.2s ease;
-    }
+.language-switch {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  z-index: 100;
+}
 
+.language-switch button {
+  background:none;
+  border:1px solid #444;
+  color:#ccc;
+  padding:6px 10px;
+  margin-left:4px;
+  font-size:0.8rem;
+}
+
+.language-switch .active {
+  border-color:#fff;
+  color:#fff;
+}
+
+.container {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 80px 20px 60px;
+  text-align: center;
+}
+
+/* LOGO */
+.logo img {
+  width: 100%;
+  max-width: 180px;   /* 핵심 */
+  height: auto;
+  margin-bottom: 32px;
+}
+
+/* TITLE */
+h1 {
+  font-size: 1.9rem;
+  letter-spacing: 0.12em;
+  margin-bottom: 28px;
+}
+
+/* TEXT */
+.manifesto p {
+  font-size: 0.95rem;
+  line-height: 1.8;
+  margin: 12px 0;
+}
+
+.highlight {
+  font-weight:600;
+  color:#fff;
+}
+
+/* DOWNLOAD */
+.download {
+  margin-top: 50px;
+  padding-top: 36px;
+  border-top:1px solid #222;
+}
+
+.download h2 {
+  font-size:1.4rem;
+  margin-bottom:14px;
+}
+
+.download p {
+  font-size:0.9rem;
+  opacity:0.75;
+}
+
+.download a {
+  display:inline-block;
+  margin:8px;
+  padding:12px 26px;
+  border:1px solid #555;
+  color:#eee;
+  text-decoration:none;
+}
+
+footer {
+  margin-top:40px;
+  font-size:0.75rem;
+  opacity:0.4;
+}
+
+/* PC 대응 */
+@media (min-width: 768px) {
+  .manifesto p { font-size:1.05rem; }
+  h1 { font-size:2.2rem; }
+  .logo img { max-width:220px; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="language-switch">
+  <button id="kr" class="active" onclick="setLang('kr')">KR</button>
+  <button id="en" onclick="setLang('en')">EN</button>
+</div>
+
+<div class="container">
+
+  <div class="logo">
+    <img src="logo.png" alt="Millennium Logo">
+  </div>
+
+  <h1>MILLENNIUM</h1>
+
+  <div class="manifesto" id="content"></div>
+
+  <div class="download">
+    <h2>Le Reportage</h2>
+    <p id="dl-text">게임 다운로드</p>
+    <a href="Le_Reportage_Windows.zip">Windows</a>
+    <a href="Le_Reportage_Mac.zip">macOS</a>
+  </div>
+
+  <footer>© Millennium. Game as Art.</footer>
+</div>
+
+<script>
+const krText = `
+<p><span class="highlight">밀레니엄이 추구하는 가치는 세 가지입니다.</span></p>
+<p>사랑, 열정, 그리고 노력.</p>
+<p>우리는 게임을 단순한 오락이 아닌,<br><span class="highlight">하나의 예술</span>로 바라봅니다.</p>
+<p>예술은 열정 없이는 탄생할 수 없고,<br>그 열정은 결코 쉬운 길을 허락하지 않습니다.</p>
+<p>수없이 넘어지고 흔들릴지라도 우리는 멈추지 않습니다.</p>
+<p>끝까지 나아가 더 멀리 도달하기 위해.</p>
+<p><span class="highlight">이것이 밀레니엄입니다.</span></p>
+`;
+
+const enText = `
+<p><span class="highlight">Millennium stands on three core values.</span></p>
+<p>Love, Passion, and Effort.</p>
+<p>We see games not as entertainment,<br>but as <span class="highlight">a form of art</span>.</p>
+<p>Art is born from passion,<br>and passion never promises an easy path.</p>
+<p>Even when we fall, we do not stop.</p>
+<p>To move forward, and to reach further.</p>
+<p><span class="highlight">This is Millennium.</span></p>
+`;
+
+function setLang(l){
+  document.getElementById("content").innerHTML = l==="kr"?krText:enText;
+  document.getElementById("dl-text").innerText = l==="kr"?"게임 다운로드":"Download the game";
+  kr.classList.toggle("active",l==="kr");
+  en.classList.toggle("active",l==="en");
+}
+
+setLang("kr");
+</script>
+
+</body>
+</html>
     .language-switch button.active,
     .language-switch button:hover {
       border-color: #fff;
