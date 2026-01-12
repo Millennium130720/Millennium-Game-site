@@ -1,40 +1,244 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <title>Millennium Game</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <title>Millennium — Game as Art</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0e0e0e;
-      color: #ffffff;
+      font-family: "Pretendard", "Noto Sans KR", Arial, sans-serif;
+      background: #0b0b0b;
+      color: #eaeaea;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .language-switch {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 10;
+    }
+
+    .language-switch button {
+      background: none;
+      border: 1px solid #444;
+      color: #ccc;
+      padding: 6px 12px;
+      margin-left: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+    }
+
+    .language-switch button.active,
+    .language-switch button:hover {
+      border-color: #fff;
+      color: #fff;
+    }
+
+    .container {
+      max-width: 900px;
+      padding: 60px 24px;
       text-align: center;
+      width: 100%;
     }
 
-    header {
-      padding: 60px 20px;
-      background: linear-gradient(180deg, #111, #000);
+    /* ===== LOGO ===== */
+    .logo {
+      margin-bottom: 40px;
     }
 
-    /* 로고 사이즈 설정 (핵심) */
-    header img {
-      display: block;
-      margin: 0 auto 24px;
-      width: 120px;
+    .logo img {
+      max-width: 220px;
+      width: 60%;
       height: auto;
+      opacity: 0.95;
     }
 
-    /* 모바일에서는 로고 더 작게 */
-    @media (max-width: 600px) {
-      header img {
-        width: 90px;
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 24px;
+      letter-spacing: 0.08em;
+    }
+
+    .manifesto p {
+      font-size: 1.05rem;
+      line-height: 1.9;
+      margin: 12px 0;
+      opacity: 0.95;
+    }
+
+    .highlight {
+      font-weight: 600;
+      color: #ffffff;
+    }
+
+    /* ===== DOWNLOAD SECTION ===== */
+    .download {
+      margin-top: 60px;
+      padding-top: 40px;
+      border-top: 1px solid #222;
+    }
+
+    .download h2 {
+      font-size: 1.6rem;
+      margin-bottom: 16px;
+      letter-spacing: 0.05em;
+    }
+
+    .download p {
+      font-size: 0.95rem;
+      opacity: 0.8;
+      margin-bottom: 24px;
+    }
+
+    .download-buttons a {
+      display: inline-block;
+      margin: 8px;
+      padding: 12px 28px;
+      border: 1px solid #555;
+      color: #eee;
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: all 0.25s ease;
+    }
+
+    .download-buttons a:hover {
+      border-color: #fff;
+      color: #fff;
+      background: rgba(255,255,255,0.05);
+    }
+
+    footer {
+      margin-top: 50px;
+      font-size: 0.8rem;
+      opacity: 0.4;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="language-switch">
+    <button id="btn-kr" class="active" onclick="setLanguage('kr')">KR</button>
+    <button id="btn-en" onclick="setLanguage('en')">EN</button>
+  </div>
+
+  <div class="container">
+
+    <!-- LOGO -->
+    <div class="logo">
+      <!-- 로고 파일 경로만 나중에 교체 -->
+      <img src="logo.png" alt="Millennium Logo">
+    </div>
+
+    <h1>MILLENNIUM</h1>
+
+    <div class="manifesto" id="content">
+      <!-- 기본 한국어 -->
+      <p><span class="highlight">밀레니엄이 추구하는 가치는 세 가지입니다.</span></p>
+      <p>사랑, 열정, 그리고 노력.</p>
+
+      <p>우리는 게임을 단순한 오락이 아닌,<br>
+      <span class="highlight">하나의 예술</span>로 바라봅니다.</p>
+
+      <p>예술은 열정 없이는 탄생할 수 없고,<br>
+      그 열정은 결코 쉬운 길을 허락하지 않습니다.</p>
+
+      <p>수없이 넘어지고, 흔들릴지라도<br>
+      우리는 멈추지 않습니다.</p>
+
+      <p>끝까지 나아가고,<br>
+      더 멀리 도달하기 위해.</p>
+
+      <p><span class="highlight">이것이 밀레니엄입니다.</span></p>
+    </div>
+
+    <!-- DOWNLOAD -->
+    <div class="download" id="download">
+      <h2 id="download-title">Le Reportage</h2>
+      <p id="download-desc">게임 다운로드</p>
+
+      <div class="download-buttons">
+        <!-- 실제 파일 링크로 교체 -->
+        <a href="Le_Reportage_Windows.zip">Windows</a>
+        <a href="Le_Reportage_Mac.zip">macOS</a>
+      </div>
+    </div>
+
+    <footer>
+      © Millennium. Game as Art.
+    </footer>
+
+  </div>
+
+  <script>
+    const content = document.getElementById("content");
+    const btnKr = document.getElementById("btn-kr");
+    const btnEn = document.getElementById("btn-en");
+    const downloadDesc = document.getElementById("download-desc");
+
+    const textKR = `
+      <p><span class="highlight">밀레니엄이 추구하는 가치는 세 가지입니다.</span></p>
+      <p>사랑, 열정, 그리고 노력.</p>
+
+      <p>우리는 게임을 단순한 오락이 아닌,<br>
+      <span class="highlight">하나의 예술</span>로 바라봅니다.</p>
+
+      <p>예술은 열정 없이는 탄생할 수 없고,<br>
+      그 열정은 결코 쉬운 길을 허락하지 않습니다.</p>
+
+      <p>수없이 넘어지고, 흔들릴지라도<br>
+      우리는 멈추지 않습니다.</p>
+
+      <p>끝까지 나아가고,<br>
+      더 멀리 도달하기 위해.</p>
+
+      <p><span class="highlight">이것이 밀레니엄입니다.</span></p>
+    `;
+
+    const textEN = `
+      <p><span class="highlight">Millennium stands on three core values.</span></p>
+      <p>Love, Passion, and Effort.</p>
+
+      <p>We see games not as mere entertainment,<br>
+      but as <span class="highlight">a form of art</span>.</p>
+
+      <p>Art cannot exist without passion,<br>
+      and passion never promises an easy path.</p>
+
+      <p>Even when we fall and waver,<br>
+      we do not stop.</p>
+
+      <p>To move forward until the very end,<br>
+      and to reach even further.</p>
+
+      <p><span class="highlight">This is Millennium.</span></p>
+    `;
+
+    function setLanguage(lang) {
+      if (lang === "kr") {
+        content.innerHTML = textKR;
+        downloadDesc.innerText = "게임 다운로드";
+        btnKr.classList.add("active");
+        btnEn.classList.remove("active");
+        document.documentElement.lang = "ko";
+      } else {
+        content.innerHTML = textEN;
+        downloadDesc.innerText = "Download the game";
+        btnEn.classList.add("active");
+        btnKr.classList.remove("active");
+        document.documentElement.lang = "en";
       }
     }
+  </script>
 
-    header h1 {
+</body>
+</html>    header h1 {
       font-size: 42px;
       margin-bottom: 10px;
     }
