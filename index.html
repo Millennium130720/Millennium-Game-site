@@ -15,6 +15,26 @@ body {
   color:#eaeaea;
 }
 
+.language-switch {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+}
+
+.language-switch button {
+  background: none;
+  border: 1px solid #555;
+  color: #aaa;
+  padding: 6px 10px;
+  margin-left: 4px;
+  cursor: pointer;
+}
+
+.language-switch button.active {
+  border-color: #fff;
+  color: #fff;
+}
+
 .container {
   max-width: 900px;
   margin: 0 auto;
@@ -22,19 +42,126 @@ body {
   text-align: center;
 }
 
-/* LOGO */
 .logo img {
-  max-width: 200px;
+  max-width: 220px;
   width: 100%;
   height: auto;
   margin-bottom: 32px;
 }
 
-/* TITLE */
 h1 {
-  font-size: 2rem;
-  letter-spacing: 0.15em;
+  font-size: 2.2rem;
+  letter-spacing: 0.12em;
   margin-bottom: 36px;
+}
+
+.manifesto p {
+  font-size: 1.05rem;
+  line-height: 1.9;
+  margin: 12px 0;
+}
+
+.highlight {
+  font-weight: 600;
+  color: #fff;
+}
+
+.download {
+  margin-top: 60px;
+  padding-top: 40px;
+  border-top: 1px solid #222;
+}
+
+.download h2 {
+  font-size: 1.6rem;
+  margin-bottom: 14px;
+}
+
+.download p {
+  font-size: 0.95rem;
+  opacity: 0.8;
+}
+
+.download a {
+  display: inline-block;
+  margin: 8px;
+  padding: 12px 28px;
+  border: 1px solid #555;
+  color: #eee;
+  text-decoration: none;
+}
+
+footer {
+  margin-top: 50px;
+  font-size: 0.75rem;
+  opacity: 0.4;
+}
+</style>
+</head>
+
+<body>
+
+<div class="language-switch">
+  <button id="btn-kr" class="active" onclick="setLang('kr')">KR</button>
+  <button id="btn-en" onclick="setLang('en')">EN</button>
+</div>
+
+<div class="container">
+
+  <div class="logo">
+    <img src="logo.png" alt="Millennium Logo">
+  </div>
+
+  <h1>MILLENNIUM</h1>
+
+  <div class="manifesto" id="content"></div>
+
+  <div class="download">
+    <h2>Le Reportage</h2>
+    <p id="dl-text">게임 다운로드</p>
+    <a href="Le_Reportage_Windows.zip">Windows</a>
+    <a href="Le_Reportage_Mac.zip">macOS</a>
+  </div>
+
+  <footer>
+    © Millennium. Game as Art.
+  </footer>
+
+</div>
+
+<script>
+const krText = `
+<p><span class="highlight">밀레니엄이 추구하는 가치는 세 가지입니다.</span></p>
+<p>사랑, 열정, 그리고 노력.</p>
+<p>우리는 게임을 단순한 오락이 아닌,<br><span class="highlight">하나의 예술</span>로 바라봅니다.</p>
+<p>끝까지 나아가 더 멀리 도달하기 위해.</p>
+<p><span class="highlight">이것이 밀레니엄입니다.</span></p>
+`;
+
+const enText = `
+<p><span class="highlight">Millennium stands on three core values.</span></p>
+<p>Love, Passion, and Effort.</p>
+<p>We see games not as entertainment,<br>but as <span class="highlight">a form of art</span>.</p>
+<p>To move forward, and to reach further.</p>
+<p><span class="highlight">This is Millennium.</span></p>
+`;
+
+function setLang(lang) {
+  document.getElementById("content").innerHTML =
+    lang === "kr" ? krText : enText;
+
+  document.getElementById("dl-text").innerText =
+    lang === "kr" ? "게임 다운로드" : "Download the game";
+
+  document.getElementById("btn-kr").classList.toggle("active", lang==="kr");
+  document.getElementById("btn-en").classList.toggle("active", lang==="en");
+}
+
+setLang("kr");
+</script>
+
+</body>
+</html>  margin-bottom: 36px;
 }
 
 /* TEXT */
