@@ -7,7 +7,7 @@
 <!-- SEO 메타태그 -->
 <title>Millennium — Game as Art | 밀레니엄 공식 사이트</title>
 <meta name="description" content="밀레니엄은 게임을 예술로 바라보는 인디 게임 스튜디오입니다. 사랑, 열정, 노력을 바탕으로 예술적 게임을 만듭니다. Millennium is an indie game studio that sees games as art.">
-<meta name="keywords" content="Millennium, 밀레니엄, 인디게임, indie game, game as art, Le Reportage, 게임 스튜디오">
+<meta name="keywords" content="Millennium, 밀레니엄, 인디게임, indie game, game as art, Le Reportage, 게임 스튜디오, Ren'Py">
 <meta name="author" content="Millennium">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://lemillenor.com/">
@@ -180,50 +180,241 @@ body::after{
   margin-bottom:28px;
 }
 
-/* 다운로드 카드 */
-.download-card{
+/* 게임 카드 */
+.game-card{
   background:var(--card);
   border:1px solid var(--border);
   border-radius:2px;
-  padding:36px 28px;
+  overflow:hidden;
+}
+
+/* 게임 썸네일 영역 */
+.game-hero{
+  position:relative;
+  width:100%;
+  height:260px;
+  overflow:hidden;
+  cursor:pointer;
+}
+.game-hero img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:transform 0.6s ease, filter 0.6s ease;
+}
+.game-hero:hover img{
+  transform:scale(1.03);
+  filter:brightness(0.7);
+}
+.game-hero-overlay{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(0,0,0,0.3);
+  opacity:0;
+  transition:opacity 0.4s ease;
+}
+.game-hero:hover .game-hero-overlay{
+  opacity:1;
+}
+.game-hero-overlay span{
+  font-family:var(--font-display);
+  font-size:1.1rem;
+  letter-spacing:4px;
+  color:var(--fg);
+  text-transform:uppercase;
+  border:1px solid rgba(255,255,255,0.5);
+  padding:10px 28px;
+  backdrop-filter:blur(4px);
+}
+
+/* 게임 정보 영역 */
+.game-info{
+  padding:28px;
   text-align:center;
 }
-.download-card .game-title{
+.game-title{
   font-family:var(--font-display);
   font-size:1.6rem;
   font-weight:400;
   letter-spacing:3px;
   margin-bottom:6px;
 }
-.download-card .game-desc{
+.game-desc{
   font-size:0.8rem;
   color:var(--muted);
-  margin-bottom:24px;
+  margin-bottom:6px;
 }
-.dl-buttons{
+.game-engine{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-size:0.72rem;
+  color:var(--accent-dim);
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  margin-bottom:22px;
+  padding:4px 14px;
+  border:1px solid rgba(107,93,71,0.3);
+  border-radius:2px;
+}
+.game-engine svg{
+  width:13px;height:13px;
+  fill:currentColor;
+  opacity:0.7;
+}
+
+/* 버튼 그룹 */
+.game-buttons{
   display:flex;
   justify-content:center;
   gap:12px;
   flex-wrap:wrap;
 }
-.dl-btn{
+.game-btn{
   display:inline-flex;
   align-items:center;
   gap:8px;
   padding:12px 28px;
   border:1px solid var(--border);
+  background:transparent;
   color:var(--fg);
   text-decoration:none;
+  font-family:var(--font-body);
   font-size:0.85rem;
   letter-spacing:1px;
+  cursor:pointer;
   transition:all 0.4s ease;
 }
-.dl-btn:hover{
+.game-btn:hover{
   background:var(--accent);
   border-color:var(--accent);
   color:var(--bg);
 }
-.dl-btn svg{width:16px;height:16px;fill:currentColor}
+.game-btn svg{width:16px;height:16px;fill:currentColor}
+.game-btn.primary{
+  background:rgba(160,140,110,0.12);
+  border-color:var(--accent-dim);
+}
+
+/* 스크린샷 미리보기 패널 */
+.preview-panel{
+  max-height:0;
+  overflow:hidden;
+  transition:max-height 0.5s ease;
+  border-top:0px solid transparent;
+}
+.preview-panel.open{
+  max-height:800px;
+  border-top:1px solid var(--border);
+}
+.preview-scroll{
+  display:flex;
+  gap:10px;
+  padding:20px 28px;
+  overflow-x:auto;
+  scrollbar-width:thin;
+  scrollbar-color:var(--accent-dim) transparent;
+}
+.preview-scroll::-webkit-scrollbar{
+  height:4px;
+}
+.preview-scroll::-webkit-scrollbar-track{
+  background:transparent;
+}
+.preview-scroll::-webkit-scrollbar-thumb{
+  background:var(--accent-dim);
+  border-radius:2px;
+}
+.preview-thumb{
+  flex-shrink:0;
+  width:220px;
+  height:130px;
+  border-radius:2px;
+  overflow:hidden;
+  border:1px solid var(--border);
+  cursor:pointer;
+  transition:all 0.3s ease;
+}
+.preview-thumb:hover{
+  border-color:var(--accent);
+  transform:translateY(-2px);
+}
+.preview-thumb img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:transform 0.4s ease;
+}
+.preview-thumb:hover img{
+  transform:scale(1.06);
+}
+
+/* 라이트박스 */
+.lightbox{
+  position:fixed;
+  inset:0;
+  z-index:10000;
+  background:rgba(0,0,0,0.95);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity 0.4s ease;
+}
+.lightbox.active{
+  opacity:1;
+  pointer-events:auto;
+}
+.lightbox img{
+  max-width:90vw;
+  max-height:85vh;
+  object-fit:contain;
+  border:1px solid var(--border);
+}
+.lightbox-close{
+  position:absolute;
+  top:20px;right:24px;
+  background:none;border:none;
+  color:var(--fg);
+  font-size:2rem;
+  cursor:pointer;
+  font-family:var(--font-display);
+  opacity:0.7;
+  transition:opacity 0.3s;
+  z-index:10001;
+}
+.lightbox-close:hover{opacity:1}
+.lightbox-nav{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  background:none;border:none;
+  color:var(--fg);
+  font-size:2.4rem;
+  cursor:pointer;
+  font-family:var(--font-display);
+  opacity:0.5;
+  transition:opacity 0.3s;
+  padding:20px;
+  z-index:10001;
+}
+.lightbox-nav:hover{opacity:1}
+.lightbox-prev{left:10px}
+.lightbox-next{right:10px}
+.lightbox-counter{
+  position:absolute;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  font-family:var(--font-display);
+  font-size:0.85rem;
+  color:var(--muted);
+  letter-spacing:3px;
+}
 
 /* 후원 섹션 */
 .support-card{
@@ -350,10 +541,14 @@ footer p{
   .hero h1{font-size:1.8rem;letter-spacing:8px}
   .community-grid{grid-template-columns:1fr}
   .page{padding:80px 20px 40px}
+  .game-hero{height:180px}
+  .preview-thumb{width:180px;height:105px}
+  .game-buttons{flex-direction:column;align-items:center}
 }
 @media(min-width:768px){
   .hero h1{font-size:3rem}
   .manifesto p{font-size:1.05rem}
+  .game-hero{height:320px}
 }
 </style>
 </head>
@@ -368,6 +563,15 @@ footer p{
 <!-- 복사 토스트 -->
 <div class="copy-toast" id="toast">계좌번호가 복사되었습니다</div>
 
+<!-- 라이트박스 -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+  <button class="lightbox-nav lightbox-prev" onclick="navLightbox(-1)">&#8249;</button>
+  <img id="lightbox-img" src="" alt="스크린샷">
+  <button class="lightbox-nav lightbox-next" onclick="navLightbox(1)">&#8250;</button>
+  <div class="lightbox-counter" id="lightbox-counter"></div>
+</div>
+
 <main class="page">
 
   <!-- 히어로 -->
@@ -379,7 +583,7 @@ footer p{
 
   <div class="divider"></div>
 
-  <!-- 선언문 (SEO를 위해 HTML에 직접 포함, JS로 전환) -->
+  <!-- 선언문 -->
   <section class="manifesto" id="manifesto" aria-label="밀레니엄 선언문">
     <p><span class="highlight">밀레니엄이 추구하는 가치는 세 가지입니다.</span></p>
     <p>사랑, 열정, 그리고 노력.</p>
@@ -390,21 +594,61 @@ footer p{
     <p><span class="highlight">이것이 밀레니엄입니다.</span></p>
   </section>
 
-  <!-- 다운로드 -->
-  <section class="section" aria-label="게임 다운로드">
-    <h2 class="section-title" id="dl-title">Download</h2>
-    <div class="download-card">
-      <p class="game-title">Le Reportage</p>
-      <p class="game-desc" id="dl-desc">게임 다운로드</p>
-      <div class="dl-buttons">
-        <a class="dl-btn" href="Le_Reportage_Windows.zip" aria-label="Windows용 다운로드">
-          <svg viewBox="0 0 24 24"><path d="M3 12l8.7-1.2V3L3 4.5V12zm0 7.5L11.7 21v-8.1L3 12v7.5zM12.8 21L21 22.5V12H12.8v9zm0-18v8.1H21V1.5L12.8 3z"/></svg>
-          Windows
-        </a>
-        <a class="dl-btn" href="Le_Reportage_Mac.zip" aria-label="macOS용 다운로드">
-          <svg viewBox="0 0 24 24"><path d="M18.7 19.4c-.7 1-1.4 2-2.5 2s-1.6-.6-3-.6-1.8.6-2.9.7c-1 0-1.8-1.1-2.5-2.1C6.3 17 5.2 13.6 6.8 11.3c.8-1.1 2.1-1.9 3.6-1.9 1.1 0 2 .7 2.7.7s2-.9 3.4-.8c.6 0 2.2.2 3.2 1.8-2.1 1.3-1.8 4.6.4 5.5-.5 1.3-.7 1.8-1.4 2.8zM15.3 5c.7-.9 1.2-2.1 1-3.4-1.1.1-2.5.8-3.3 1.7-.7.8-1.3 2-1.1 3.3 1.3.1 2.5-.7 3.4-1.6z"/></svg>
-          macOS
-        </a>
+  <!-- 게임 섹션 -->
+  <section class="section" aria-label="게임">
+    <h2 class="section-title" id="game-title">Our Game</h2>
+    <div class="game-card">
+      <!-- 메인 썸네일 -->
+      <div class="game-hero" onclick="openLightbox(0)">
+        <img src="screenshot_1.png" alt="Le Reportage 게임 타이틀 화면">
+        <div class="game-hero-overlay">
+          <span id="hero-overlay-text">미리보기</span>
+        </div>
+      </div>
+
+      <!-- 게임 정보 -->
+      <div class="game-info">
+        <p class="game-title">Le Reportage</p>
+        <p class="game-desc" id="game-desc">전쟁 속 기자의 이야기를 담은 비주얼 노벨</p>
+        <div class="game-engine">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+          <span>Built with Ren'Py Engine</span>
+        </div>
+        <div class="game-buttons">
+          <button class="game-btn primary" onclick="togglePreview()" id="preview-btn">
+            <svg viewBox="0 0 24 24"><path d="M4 6h16v2H4V6zm0 5h16v2H4v-2zm0 5h16v2H4v-2z"/></svg>
+            <span id="preview-btn-text">더보기</span>
+          </button>
+          <a class="game-btn" href="Le_Reportage_Windows.zip" aria-label="Windows용 다운로드">
+            <svg viewBox="0 0 24 24"><path d="M3 12l8.7-1.2V3L3 4.5V12zm0 7.5L11.7 21v-8.1L3 12v7.5zM12.8 21L21 22.5V12H12.8v9zm0-18v8.1H21V1.5L12.8 3z"/></svg>
+            Windows
+          </a>
+          <a class="game-btn" href="Le_Reportage_Mac.zip" aria-label="macOS용 다운로드">
+            <svg viewBox="0 0 24 24"><path d="M18.7 19.4c-.7 1-1.4 2-2.5 2s-1.6-.6-3-.6-1.8.6-2.9.7c-1 0-1.8-1.1-2.5-2.1C6.3 17 5.2 13.6 6.8 11.3c.8-1.1 2.1-1.9 3.6-1.9 1.1 0 2 .7 2.7.7s2-.9 3.4-.8c.6 0 2.2.2 3.2 1.8-2.1 1.3-1.8 4.6.4 5.5-.5 1.3-.7 1.8-1.4 2.8zM15.3 5c.7-.9 1.2-2.1 1-3.4-1.1.1-2.5.8-3.3 1.7-.7.8-1.3 2-1.1 3.3 1.3.1 2.5-.7 3.4-1.6z"/></svg>
+            macOS
+          </a>
+        </div>
+      </div>
+
+      <!-- 스크린샷 미리보기 패널 -->
+      <div class="preview-panel" id="preview-panel">
+        <div class="preview-scroll">
+          <div class="preview-thumb" onclick="openLightbox(0)">
+            <img src="screenshot_1.png" alt="Le Reportage 스크린샷 1">
+          </div>
+          <div class="preview-thumb" onclick="openLightbox(1)">
+            <img src="screenshot_2.png" alt="Le Reportage 스크린샷 2">
+          </div>
+          <div class="preview-thumb" onclick="openLightbox(2)">
+            <img src="screenshot_3.png" alt="Le Reportage 스크린샷 3">
+          </div>
+          <div class="preview-thumb" onclick="openLightbox(3)">
+            <img src="screenshot_4.png" alt="Le Reportage 스크린샷 4">
+          </div>
+          <div class="preview-thumb" onclick="openLightbox(4)">
+            <img src="screenshot_5.png" alt="Le Reportage 스크린샷 5">
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -444,6 +688,65 @@ footer p{
 </main>
 
 <script>
+// 스크린샷 목록
+const screenshots = [
+  'screenshot_1.png',
+  'screenshot_2.png',
+  'screenshot_3.png',
+  'screenshot_4.png',
+  'screenshot_5.png'
+];
+let currentSlide = 0;
+let previewOpen = false;
+
+// 미리보기 토글
+function togglePreview() {
+  const panel = document.getElementById('preview-panel');
+  const btn = document.getElementById('preview-btn-text');
+  previewOpen = !previewOpen;
+  panel.classList.toggle('open', previewOpen);
+  btn.textContent = previewOpen
+    ? (currentLang === 'kr' ? '접기' : 'Less')
+    : (currentLang === 'kr' ? '더보기' : 'More');
+}
+
+// 라이트박스
+function openLightbox(index) {
+  currentSlide = index;
+  updateLightbox();
+  document.getElementById('lightbox').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function navLightbox(dir) {
+  currentSlide = (currentSlide + dir + screenshots.length) % screenshots.length;
+  updateLightbox();
+}
+
+function updateLightbox() {
+  document.getElementById('lightbox-img').src = screenshots[currentSlide];
+  document.getElementById('lightbox-counter').textContent =
+    (currentSlide + 1) + ' / ' + screenshots.length;
+}
+
+// 키보드 네비게이션
+document.addEventListener('keydown', (e) => {
+  if (!document.getElementById('lightbox').classList.contains('active')) return;
+  if (e.key === 'Escape') closeLightbox();
+  if (e.key === 'ArrowLeft') navLightbox(-1);
+  if (e.key === 'ArrowRight') navLightbox(1);
+});
+
+// 라이트박스 배경 클릭으로 닫기
+document.getElementById('lightbox').addEventListener('click', (e) => {
+  if (e.target === e.currentTarget) closeLightbox();
+});
+
 // 텍스트 데이터
 const i18n = {
   kr: {
@@ -455,7 +758,11 @@ const i18n = {
       <p>수없이 넘어지고 흔들릴지라도 우리는 멈추지 않습니다.</p>
       <p>끝까지 나아가 더 멀리 도달하기 위한 노력.</p>
       <p><span class="highlight">이것이 밀레니엄입니다.</span></p>`,
-    dlDesc: '게임 다운로드',
+    gameTitle: 'Our Game',
+    gameDesc: '전쟁 속 기자의 이야기를 담은 비주얼 노벨',
+    previewText: '미리보기',
+    previewBtn: '더보기',
+    previewBtnClose: '접기',
     supportMsg: '밀레니엄의 여정을 함께해 주세요.<br>여러분의 후원이 예술이 됩니다.',
     toast: '계좌번호가 복사되었습니다'
   },
@@ -468,7 +775,11 @@ const i18n = {
       <p>Even when we fall, we do not stop.</p>
       <p>To move forward, and to reach further.</p>
       <p><span class="highlight">This is Millennium.</span></p>`,
-    dlDesc: 'Download the game',
+    gameTitle: 'Our Game',
+    gameDesc: 'A visual novel about a journalist in the midst of war',
+    previewText: 'Preview',
+    previewBtn: 'More',
+    previewBtnClose: 'Less',
     supportMsg: 'Join us on our journey.<br>Your support becomes art.',
     toast: 'Account number copied'
   }
@@ -480,7 +791,11 @@ function setLang(lang) {
   currentLang = lang;
   const t = i18n[lang];
   document.getElementById('manifesto').innerHTML = t.manifesto;
-  document.getElementById('dl-desc').innerHTML = t.dlDesc;
+  document.getElementById('game-title').textContent = t.gameTitle;
+  document.getElementById('game-desc').textContent = t.gameDesc;
+  document.getElementById('hero-overlay-text').textContent = t.previewText;
+  document.getElementById('preview-btn-text').textContent =
+    previewOpen ? t.previewBtnClose : t.previewBtn;
   document.getElementById('support-msg').innerHTML = t.supportMsg;
   document.getElementById('btn-kr').classList.toggle('active', lang === 'kr');
   document.getElementById('btn-en').classList.toggle('active', lang === 'en');
