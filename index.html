@@ -12,12 +12,12 @@
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://lemillenor.com/">
 
-<!-- 파비콘 -->
+<!-- 파비콘 (브라우저 탭 + 구글 검색 결과 로고) -->
 <link rel="icon" type="image/png" sizes="48x48" href="logo.png">
 <link rel="icon" type="image/png" sizes="192x192" href="logo.png">
 <link rel="apple-touch-icon" sizes="180x180" href="logo.png">
 
-<!-- Open Graph -->
+<!-- Open Graph (소셜 공유) -->
 <meta property="og:title" content="Millennium — Game as Art">
 <meta property="og:description" content="게임을 예술로 바라보는 인디 게임 스튜디오, 밀레니엄.">
 <meta property="og:type" content="website">
@@ -30,7 +30,7 @@
 <meta name="twitter:description" content="게임을 예술로 바라보는 인디 게임 스튜디오, 밀레니엄.">
 <meta name="twitter:image" content="https://lemillenor.com/logo.png">
 
-<!-- 구조화 데이터 -->
+<!-- 구조화 데이터 (JSON-LD) -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -54,96 +54,524 @@
 
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
 :root{
---bg:#050505;--fg:#e8e4df;--accent:#a08c6e;--accent-dim:#6b5d47;--muted:#555;
---card:rgba(255,255,255,0.03);--border:rgba(255,255,255,0.08);
---font-display:'Cormorant Garamond',serif;--font-body:'Noto Sans KR',sans-serif;
+  --bg:#050505;
+  --fg:#e8e4df;
+  --accent:#a08c6e;
+  --accent-dim:#6b5d47;
+  --muted:#555;
+  --card:rgba(255,255,255,0.03);
+  --border:rgba(255,255,255,0.08);
+  --font-display:'Cormorant Garamond',serif;
+  --font-body:'Noto Sans KR',sans-serif;
 }
+
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-weight:300;line-height:1.8;overflow-x:hidden}
-body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9999}
-.lang-switch{position:fixed;top:24px;right:28px;z-index:100;display:flex;gap:4px}
-.lang-switch button{background:transparent;border:1px solid var(--border);color:var(--muted);padding:5px 14px;font-family:var(--font-display);font-size:0.85rem;letter-spacing:2px;cursor:pointer;transition:all 0.4s ease}
-.lang-switch button.active{border-color:var(--accent);color:var(--accent)}
-.lang-switch button:hover{border-color:var(--accent-dim);color:var(--fg)}
-.page{max-width:800px;margin:0 auto;padding:100px 28px 60px}
-.hero{text-align:center;padding:60px 0 50px;animation:fadeUp 1.2s ease both}
-.hero .logo-img{max-width:160px;width:100%;opacity:0.9;margin-bottom:24px}
-.hero h1{font-family:var(--font-display);font-weight:300;font-size:2.6rem;letter-spacing:12px;text-transform:uppercase;color:var(--fg);margin-bottom:6px}
-.hero .tagline{font-family:var(--font-display);font-style:italic;font-size:1rem;color:var(--accent);letter-spacing:4px}
-.divider{width:40px;height:1px;background:var(--accent-dim);margin:50px auto;animation:fadeUp 1.2s ease 0.2s both}
-.manifesto{text-align:center;animation:fadeUp 1.2s ease 0.3s both}
-.manifesto p{font-size:0.95rem;margin:12px 0;color:rgba(232,228,223,0.85)}
-.manifesto .highlight{font-weight:400;color:var(--fg)}
-.section{margin-top:70px;animation:fadeUp 1.2s ease 0.4s both}
-.section-title{font-family:var(--font-display);font-weight:300;font-size:1.4rem;letter-spacing:6px;text-transform:uppercase;text-align:center;color:var(--accent);margin-bottom:28px}
-.game-card{background:var(--card);border:1px solid var(--border);border-radius:2px;overflow:hidden}
-.game-hero{position:relative;width:100%;height:260px;overflow:hidden;cursor:pointer}
-.game-hero img{width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease,filter 0.6s ease}
-.game-hero:hover img{transform:scale(1.03);filter:brightness(0.7)}
-.game-hero-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.3);opacity:0;transition:opacity 0.4s ease}
-.game-hero:hover .game-hero-overlay{opacity:1}
-.game-hero-overlay span{font-family:var(--font-display);font-size:1.1rem;letter-spacing:4px;color:var(--fg);text-transform:uppercase;border:1px solid rgba(255,255,255,0.5);padding:10px 28px;backdrop-filter:blur(4px)}
-.game-info{padding:28px;text-align:center}
-.game-title{font-family:var(--font-display);font-size:1.6rem;font-weight:400;letter-spacing:3px;margin-bottom:6px}
-.game-desc{font-size:0.8rem;color:var(--muted);margin-bottom:6px}
-.game-engine{display:inline-flex;align-items:center;gap:6px;font-size:0.72rem;color:var(--accent-dim);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:22px;padding:4px 14px;border:1px solid rgba(107,93,71,0.3);border-radius:2px}
-.game-engine svg{width:13px;height:13px;fill:currentColor;opacity:0.7}
-.game-buttons{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
-.game-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;border:1px solid var(--border);background:transparent;color:var(--fg);text-decoration:none;font-family:var(--font-body);font-size:0.85rem;letter-spacing:1px;cursor:pointer;transition:all 0.4s ease}
-.game-btn:hover{background:var(--accent);border-color:var(--accent);color:var(--bg)}
+
+body{
+  background:var(--bg);
+  color:var(--fg);
+  font-family:var(--font-body);
+  font-weight:300;
+  line-height:1.8;
+  overflow-x:hidden;
+}
+
+/* 배경 그레인 텍스처 */
+body::after{
+  content:'';
+  position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none;
+  z-index:9999;
+}
+
+/* 언어 전환 */
+.lang-switch{
+  position:fixed;top:24px;right:28px;z-index:100;
+  display:flex;gap:4px;
+}
+.lang-switch button{
+  background:transparent;
+  border:1px solid var(--border);
+  color:var(--muted);
+  padding:5px 14px;
+  font-family:var(--font-display);
+  font-size:0.85rem;
+  letter-spacing:2px;
+  cursor:pointer;
+  transition:all 0.4s ease;
+}
+.lang-switch button.active{
+  border-color:var(--accent);
+  color:var(--accent);
+}
+.lang-switch button:hover{
+  border-color:var(--accent-dim);
+  color:var(--fg);
+}
+
+/* 메인 컨테이너 */
+.page{
+  max-width:800px;
+  margin:0 auto;
+  padding:100px 28px 60px;
+}
+
+/* 로고 + 타이틀 */
+.hero{
+  text-align:center;
+  padding:60px 0 50px;
+  animation:fadeUp 1.2s ease both;
+}
+.hero .logo-img{
+  max-width:160px;
+  width:100%;
+  opacity:0.9;
+  margin-bottom:24px;
+}
+.hero h1{
+  font-family:var(--font-display);
+  font-weight:300;
+  font-size:2.6rem;
+  letter-spacing:12px;
+  text-transform:uppercase;
+  color:var(--fg);
+  margin-bottom:6px;
+}
+.hero .tagline{
+  font-family:var(--font-display);
+  font-style:italic;
+  font-size:1rem;
+  color:var(--accent);
+  letter-spacing:4px;
+}
+
+/* 구분선 */
+.divider{
+  width:40px;
+  height:1px;
+  background:var(--accent-dim);
+  margin:50px auto;
+  animation:fadeUp 1.2s ease 0.2s both;
+}
+
+/* 선언문 */
+.manifesto{
+  text-align:center;
+  animation:fadeUp 1.2s ease 0.3s both;
+}
+.manifesto p{
+  font-size:0.95rem;
+  margin:12px 0;
+  color:rgba(232,228,223,0.85);
+}
+.manifesto .highlight{
+  font-weight:400;
+  color:var(--fg);
+}
+
+/* 섹션 공통 */
+.section{
+  margin-top:70px;
+  animation:fadeUp 1.2s ease 0.4s both;
+}
+.section-title{
+  font-family:var(--font-display);
+  font-weight:300;
+  font-size:1.4rem;
+  letter-spacing:6px;
+  text-transform:uppercase;
+  text-align:center;
+  color:var(--accent);
+  margin-bottom:28px;
+}
+
+/* 게임 카드 */
+.game-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:2px;
+  overflow:hidden;
+}
+
+/* 게임 썸네일 영역 */
+.game-hero{
+  position:relative;
+  width:100%;
+  height:260px;
+  overflow:hidden;
+  cursor:pointer;
+}
+.game-hero img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:transform 0.6s ease, filter 0.6s ease;
+}
+.game-hero:hover img{
+  transform:scale(1.03);
+  filter:brightness(0.7);
+}
+.game-hero-overlay{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(0,0,0,0.3);
+  opacity:0;
+  transition:opacity 0.4s ease;
+}
+.game-hero:hover .game-hero-overlay{
+  opacity:1;
+}
+.game-hero-overlay span{
+  font-family:var(--font-display);
+  font-size:1.1rem;
+  letter-spacing:4px;
+  color:var(--fg);
+  text-transform:uppercase;
+  border:1px solid rgba(255,255,255,0.5);
+  padding:10px 28px;
+  backdrop-filter:blur(4px);
+}
+
+/* 게임 정보 영역 */
+.game-info{
+  padding:28px;
+  text-align:center;
+}
+.game-title{
+  font-family:var(--font-display);
+  font-size:1.6rem;
+  font-weight:400;
+  letter-spacing:3px;
+  margin-bottom:6px;
+}
+.game-desc{
+  font-size:0.8rem;
+  color:var(--muted);
+  margin-bottom:6px;
+}
+.game-engine{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-size:0.72rem;
+  color:var(--accent-dim);
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  margin-bottom:22px;
+  padding:4px 14px;
+  border:1px solid rgba(107,93,71,0.3);
+  border-radius:2px;
+}
+.game-engine svg{
+  width:13px;height:13px;
+  fill:currentColor;
+  opacity:0.7;
+}
+
+/* 버튼 그룹 */
+.game-buttons{
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+.game-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:12px 28px;
+  border:1px solid var(--border);
+  background:transparent;
+  color:var(--fg);
+  text-decoration:none;
+  font-family:var(--font-body);
+  font-size:0.85rem;
+  letter-spacing:1px;
+  cursor:pointer;
+  transition:all 0.4s ease;
+}
+.game-btn:hover{
+  background:var(--accent);
+  border-color:var(--accent);
+  color:var(--bg);
+}
 .game-btn svg{width:16px;height:16px;fill:currentColor}
-.game-btn.primary{background:rgba(160,140,110,0.12);border-color:var(--accent-dim)}
-.preview-panel{max-height:0;overflow:hidden;transition:max-height 0.5s ease;border-top:0px solid transparent}
-.preview-panel.open{max-height:800px;border-top:1px solid var(--border)}
-.preview-scroll{display:flex;gap:10px;padding:20px 28px;overflow-x:auto;scrollbar-width:thin;scrollbar-color:var(--accent-dim) transparent}
-.preview-scroll::-webkit-scrollbar{height:4px}
-.preview-scroll::-webkit-scrollbar-track{background:transparent}
-.preview-scroll::-webkit-scrollbar-thumb{background:var(--accent-dim);border-radius:2px}
-.preview-thumb{flex-shrink:0;width:220px;height:130px;border-radius:2px;overflow:hidden;border:1px solid var(--border);cursor:pointer;transition:all 0.3s ease}
-.preview-thumb:hover{border-color:var(--accent);transform:translateY(-2px)}
-.preview-thumb img{width:100%;height:100%;object-fit:cover;transition:transform 0.4s ease}
-.preview-thumb:hover img{transform:scale(1.06)}
-.lightbox{position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.95);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.4s ease}
-.lightbox.active{opacity:1;pointer-events:auto}
-.lightbox img{max-width:90vw;max-height:85vh;object-fit:contain;border:1px solid var(--border)}
-.lightbox-close{position:absolute;top:20px;right:24px;background:none;border:none;color:var(--fg);font-size:2rem;cursor:pointer;font-family:var(--font-display);opacity:0.7;transition:opacity 0.3s;z-index:10001}
+.game-btn.primary{
+  background:rgba(160,140,110,0.12);
+  border-color:var(--accent-dim);
+}
+
+/* 스크린샷 미리보기 패널 */
+.preview-panel{
+  max-height:0;
+  overflow:hidden;
+  transition:max-height 0.5s ease;
+  border-top:0px solid transparent;
+}
+.preview-panel.open{
+  max-height:800px;
+  border-top:1px solid var(--border);
+}
+.preview-scroll{
+  display:flex;
+  gap:10px;
+  padding:20px 28px;
+  overflow-x:auto;
+  scrollbar-width:thin;
+  scrollbar-color:var(--accent-dim) transparent;
+}
+.preview-scroll::-webkit-scrollbar{
+  height:4px;
+}
+.preview-scroll::-webkit-scrollbar-track{
+  background:transparent;
+}
+.preview-scroll::-webkit-scrollbar-thumb{
+  background:var(--accent-dim);
+  border-radius:2px;
+}
+.preview-thumb{
+  flex-shrink:0;
+  width:220px;
+  height:130px;
+  border-radius:2px;
+  overflow:hidden;
+  border:1px solid var(--border);
+  cursor:pointer;
+  transition:all 0.3s ease;
+}
+.preview-thumb:hover{
+  border-color:var(--accent);
+  transform:translateY(-2px);
+}
+.preview-thumb img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:transform 0.4s ease;
+}
+.preview-thumb:hover img{
+  transform:scale(1.06);
+}
+
+/* 라이트박스 */
+.lightbox{
+  position:fixed;
+  inset:0;
+  z-index:10000;
+  background:rgba(0,0,0,0.95);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity 0.4s ease;
+}
+.lightbox.active{
+  opacity:1;
+  pointer-events:auto;
+}
+.lightbox img{
+  max-width:90vw;
+  max-height:85vh;
+  object-fit:contain;
+  border:1px solid var(--border);
+}
+.lightbox-close{
+  position:absolute;
+  top:20px;right:24px;
+  background:none;border:none;
+  color:var(--fg);
+  font-size:2rem;
+  cursor:pointer;
+  font-family:var(--font-display);
+  opacity:0.7;
+  transition:opacity 0.3s;
+  z-index:10001;
+}
 .lightbox-close:hover{opacity:1}
-.lightbox-nav{position:absolute;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--fg);font-size:2.4rem;cursor:pointer;font-family:var(--font-display);opacity:0.5;transition:opacity 0.3s;padding:20px;z-index:10001}
+.lightbox-nav{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  background:none;border:none;
+  color:var(--fg);
+  font-size:2.4rem;
+  cursor:pointer;
+  font-family:var(--font-display);
+  opacity:0.5;
+  transition:opacity 0.3s;
+  padding:20px;
+  z-index:10001;
+}
 .lightbox-nav:hover{opacity:1}
 .lightbox-prev{left:10px}
 .lightbox-next{right:10px}
-.lightbox-counter{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);font-family:var(--font-display);font-size:0.85rem;color:var(--muted);letter-spacing:3px}
-.support-card{background:var(--card);border:1px solid var(--border);border-radius:2px;padding:36px 28px;text-align:center}
-.support-card .support-msg{font-size:0.88rem;color:rgba(232,228,223,0.7);margin-bottom:22px;line-height:1.9}
-.account-box{display:inline-block;border:1px solid var(--border);padding:18px 32px;border-radius:2px;background:rgba(255,255,255,0.02);position:relative;cursor:pointer;transition:border-color 0.3s}
-.account-box:hover{border-color:var(--accent-dim)}
-.account-bank{font-size:0.75rem;color:var(--accent);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px}
-.account-number{font-family:var(--font-display);font-size:1.3rem;letter-spacing:2px;color:var(--fg)}
-.account-name{font-size:0.78rem;color:var(--muted);margin-top:4px}
-.copy-toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--accent);color:var(--bg);padding:10px 24px;border-radius:2px;font-size:0.82rem;letter-spacing:1px;opacity:0;transition:all 0.4s ease;pointer-events:none;z-index:200}
-.copy-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-.community-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.community-link{display:flex;align-items:center;justify-content:center;gap:10px;padding:20px 16px;border:1px solid var(--border);background:var(--card);border-radius:2px;color:var(--fg);text-decoration:none;font-size:0.88rem;letter-spacing:1px;transition:all 0.4s ease}
-.community-link:hover{border-color:var(--accent);background:rgba(160,140,110,0.06)}
-.community-link svg{width:22px;height:22px;flex-shrink:0;fill:currentColor;opacity:0.7;transition:opacity 0.3s}
+.lightbox-counter{
+  position:absolute;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  font-family:var(--font-display);
+  font-size:0.85rem;
+  color:var(--muted);
+  letter-spacing:3px;
+}
+
+/* 후원 섹션 */
+.support-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:2px;
+  padding:36px 28px;
+  text-align:center;
+}
+.support-card .support-msg{
+  font-size:0.88rem;
+  color:rgba(232,228,223,0.7);
+  margin-bottom:22px;
+  line-height:1.9;
+}
+.account-box{
+  display:inline-block;
+  border:1px solid var(--border);
+  padding:18px 32px;
+  border-radius:2px;
+  background:rgba(255,255,255,0.02);
+  position:relative;
+  cursor:pointer;
+  transition:border-color 0.3s;
+}
+.account-box:hover{
+  border-color:var(--accent-dim);
+}
+.account-bank{
+  font-size:0.75rem;
+  color:var(--accent);
+  letter-spacing:2px;
+  text-transform:uppercase;
+  margin-bottom:6px;
+}
+.account-number{
+  font-family:var(--font-display);
+  font-size:1.3rem;
+  letter-spacing:2px;
+  color:var(--fg);
+}
+.account-name{
+  font-size:0.78rem;
+  color:var(--muted);
+  margin-top:4px;
+}
+.copy-toast{
+  position:fixed;
+  bottom:30px;
+  left:50%;
+  transform:translateX(-50%) translateY(20px);
+  background:var(--accent);
+  color:var(--bg);
+  padding:10px 24px;
+  border-radius:2px;
+  font-size:0.82rem;
+  letter-spacing:1px;
+  opacity:0;
+  transition:all 0.4s ease;
+  pointer-events:none;
+  z-index:200;
+}
+.copy-toast.show{
+  opacity:1;
+  transform:translateX(-50%) translateY(0);
+}
+
+/* 커뮤니티 링크 */
+.community-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+.community-link{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  padding:20px 16px;
+  border:1px solid var(--border);
+  background:var(--card);
+  border-radius:2px;
+  color:var(--fg);
+  text-decoration:none;
+  font-size:0.88rem;
+  letter-spacing:1px;
+  transition:all 0.4s ease;
+}
+.community-link:hover{
+  border-color:var(--accent);
+  background:rgba(160,140,110,0.06);
+}
+.community-link svg{
+  width:22px;height:22px;
+  flex-shrink:0;
+  fill:currentColor;
+  opacity:0.7;
+  transition:opacity 0.3s;
+}
 .community-link:hover svg{opacity:1}
-footer{margin-top:80px;text-align:center;padding:30px 0;border-top:1px solid var(--border)}
-footer p{font-family:var(--font-display);font-size:0.78rem;color:var(--muted);letter-spacing:3px}
-@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
-@media(max-width:600px){.hero h1{font-size:1.8rem;letter-spacing:8px}.community-grid{grid-template-columns:1fr}.page{padding:80px 20px 40px}.game-hero{height:180px}.preview-thumb{width:180px;height:105px}.game-buttons{flex-direction:column;align-items:center}}
-@media(min-width:768px){.hero h1{font-size:3rem}.manifesto p{font-size:1.05rem}.game-hero{height:320px}}
+
+/* 푸터 */
+footer{
+  margin-top:80px;
+  text-align:center;
+  padding:30px 0;
+  border-top:1px solid var(--border);
+}
+footer p{
+  font-family:var(--font-display);
+  font-size:0.78rem;
+  color:var(--muted);
+  letter-spacing:3px;
+}
+
+/* 애니메이션 */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(24px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* 반응형 */
+@media(max-width:600px){
+  .hero h1{font-size:1.8rem;letter-spacing:8px}
+  .community-grid{grid-template-columns:1fr}
+  .page{padding:80px 20px 40px}
+  .game-hero{height:180px}
+  .preview-thumb{width:180px;height:105px}
+  .game-buttons{flex-direction:column;align-items:center}
+}
+@media(min-width:768px){
+  .hero h1{font-size:3rem}
+  .manifesto p{font-size:1.05rem}
+  .game-hero{height:320px}
+}
 </style>
 </head>
 <body>
 
+<!-- 언어 전환 -->
 <div class="lang-switch">
   <button id="btn-kr" class="active" onclick="setLang('kr')">KR</button>
   <button id="btn-en" onclick="setLang('en')">EN</button>
 </div>
 
-<div class="copy-toast" id="toast"></div>
+<!-- 복사 토스트 -->
+<div class="copy-toast" id="toast">계좌번호가 복사되었습니다</div>
 
+<!-- 라이트박스 -->
 <div class="lightbox" id="lightbox">
   <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
   <button class="lightbox-nav lightbox-prev" onclick="navLightbox(-1)">&#8249;</button>
@@ -154,14 +582,16 @@ footer p{font-family:var(--font-display);font-size:0.78rem;color:var(--muted);le
 
 <main class="page">
 
+  <!-- 히어로 -->
   <header class="hero">
-    <img class="logo-img" src="logo.png" alt="Millennium 로고">
+    <img class="logo-img" src="logo.png" alt="Millennium 로고 — 인디 게임 스튜디오">
     <h1>Millennium</h1>
     <p class="tagline">Game as Art</p>
   </header>
 
   <div class="divider"></div>
 
+  <!-- 선언문 -->
   <section class="manifesto" id="manifesto" aria-label="밀레니엄 선언문">
     <p><span class="highlight">밀레니엄이 추구하는 가치는 세 가지입니다.</span></p>
     <p>사랑, 열정, 그리고 노력.</p>
@@ -172,15 +602,19 @@ footer p{font-family:var(--font-display);font-size:0.78rem;color:var(--muted);le
     <p><span class="highlight">이것이 밀레니엄입니다.</span></p>
   </section>
 
+  <!-- 게임 섹션 -->
   <section class="section" aria-label="게임">
     <h2 class="section-title" id="game-title">Our Game</h2>
     <div class="game-card">
+      <!-- 메인 썸네일 -->
       <div class="game-hero" onclick="openLightbox(0)">
         <img src="screenshot_1.png" alt="Le Reportage 게임 타이틀 화면">
         <div class="game-hero-overlay">
           <span id="hero-overlay-text">미리보기</span>
         </div>
       </div>
+
+      <!-- 게임 정보 -->
       <div class="game-info">
         <p class="game-title">Le Reportage</p>
         <p class="game-desc" id="game-desc">전쟁 속 기자의 이야기를 담은 비주얼 노벨</p>
@@ -193,7 +627,7 @@ footer p{font-family:var(--font-display);font-size:0.78rem;color:var(--muted);le
             <svg viewBox="0 0 24 24"><path d="M4 6h16v2H4V6zm0 5h16v2H4v-2zm0 5h16v2H4v-2z"/></svg>
             <span id="preview-btn-text">더보기</span>
           </button>
-          <a class="game-btn" href="https://github.com/Millennium130720/Millennium-Game-site/releases/download/1.0/Le.Reportage.v1.0" aria-label="Windows용 다운로드">
+         <a class="game-btn" href="https://github.com/Millennium130720/Millennium-Game-site/releases/download/1.0/Le.Reportage.v1.0" aria-label="Windows용 다운로드">
             <svg viewBox="0 0 24 24"><path d="M3 12l8.7-1.2V3L3 4.5V12zm0 7.5L11.7 21v-8.1L3 12v7.5zM12.8 21L21 22.5V12H12.8v9zm0-18v8.1H21V1.5L12.8 3z"/></svg>
             Windows
           </a>
@@ -203,18 +637,31 @@ footer p{font-family:var(--font-display);font-size:0.78rem;color:var(--muted);le
           </a>
         </div>
       </div>
+
+      <!-- 스크린샷 미리보기 패널 -->
       <div class="preview-panel" id="preview-panel">
         <div class="preview-scroll">
-          <div class="preview-thumb" onclick="openLightbox(0)"><img src="screenshot_1.png" alt="스크린샷 1"></div>
-          <div class="preview-thumb" onclick="openLightbox(1)"><img src="screenshot_2.png" alt="스크린샷 2"></div>
-          <div class="preview-thumb" onclick="openLightbox(2)"><img src="screenshot_3.png" alt="스크린샷 3"></div>
-          <div class="preview-thumb" onclick="openLightbox(3)"><img src="screenshot_4.png" alt="스크린샷 4"></div>
-          <div class="preview-thumb" onclick="openLightbox(4)"><img src="screenshot_5.png" alt="스크린샷 5"></div>
+          <div class="preview-thumb" onclick="openLightbox(0)">
+            <img src="screenshot_1.png" alt="Le Reportage 스크린샷 1">
+          </div>
+          <div class="preview-thumb" onclick="openLightbox(1)">
+            <img src="screenshot_2.png" alt="Le Reportage 스크린샷 2">
+          </div>
+          <div class="preview-thumb" onclick="openLightbox(2)">
+            <img src="screenshot_3.png" alt="Le Reportage 스크린샷 3">
+          </div>
+          <div class="preview-thumb" onclick="openLightbox(3)">
+            <img src="screenshot_4.png" alt="Le Reportage 스크린샷 4">
+          </div>
+          <div class="preview-thumb" onclick="openLightbox(4)">
+            <img src="screenshot_5.png" alt="Le Reportage 스크린샷 5">
+          </div>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- 후원 -->
   <section class="section" aria-label="후원하기">
     <h2 class="section-title" id="support-title">Support</h2>
     <div class="support-card">
@@ -227,127 +674,162 @@ footer p{font-family:var(--font-display);font-size:0.78rem;color:var(--muted);le
     </div>
   </section>
 
+  <!-- 커뮤니티 -->
   <section class="section" aria-label="커뮤니티">
     <h2 class="section-title" id="community-title">Community</h2>
     <div class="community-grid">
-      <a class="community-link" href="https://youtube.com/@millennium-13?si=0R-VX7BYQD27pW_g" target="_blank" rel="noopener noreferrer" aria-label="유튜브">
+      <a class="community-link" href="https://youtube.com/@millennium-13?si=0R-VX7BYQD27pW_g" target="_blank" rel="noopener noreferrer" aria-label="밀레니엄 유튜브 채널">
         <svg viewBox="0 0 24 24"><path d="M23.5 6.2s-.2-1.6-.9-2.3c-.9-.9-1.8-.9-2.3-1C17 2.6 12 2.6 12 2.6s-5 0-8.3.3c-.5.1-1.4.1-2.3 1-.7.7-.9 2.3-.9 2.3S.2 8.1.2 10v1.8c0 1.9.3 3.8.3 3.8s.2 1.6.9 2.3c.9.9 2 .9 2.5 1 1.8.2 7.1.2 7.1.2s5 0 8.3-.3c.5-.1 1.4-.1 2.3-1 .7-.7.9-2.3.9-2.3s.3-1.9.3-3.8V10c0-1.9-.3-3.8-.3-3.8zM9.6 15.2V8.4l6.3 3.4-6.3 3.4z"/></svg>
         YouTube
       </a>
-      <a class="community-link" href="https://cafe.naver.com/millennium13" target="_blank" rel="noopener noreferrer" aria-label="네이버 카페">
+      <a class="community-link" href="https://cafe.naver.com/millennium13" target="_blank" rel="noopener noreferrer" aria-label="밀레니엄 네이버 카페">
         <svg viewBox="0 0 24 24"><path d="M4 4h7v7.2L13.2 8H20v12H4V4zm2 2v10h12V10h-4.5L11 14.5V6H6z"/></svg>
-        Naver Caf&#233;
+        Naver Café
       </a>
     </div>
   </section>
 
   <footer>
-    <p>&copy; Millennium &middot; Game as Art</p>
+    <p>© Millennium · Game as Art</p>
   </footer>
 
 </main>
 
 <script>
-var screenshots=['screenshot_1.png','screenshot_2.png','screenshot_3.png','screenshot_4.png','screenshot_5.png'];
-var currentSlide=0;
-var previewOpen=false;
-var currentLang='kr';
+// 스크린샷 목록
+const screenshots = [
+  'screenshot_1.png',
+  'screenshot_2.png',
+  'screenshot_3.png',
+  'screenshot_4.png',
+  'screenshot_5.png'
+];
+let currentSlide = 0;
+let previewOpen = false;
 
-var i18n={
-kr:{
-manifesto:'<p><span class="highlight">밀레니엄이 추구하는 가치는 세 가지입니다.</span></p><p>사랑, 열정, 그리고 노력.</p><p>우리는 게임을 단순한 오락이 아닌,<br><span class="highlight">하나의 예술</span>로 바라봅니다.</p><p>예술은 열정 없이는 탄생할 수 없고,<br>그 열정은 결코 쉬운 길을 허락하지 않습니다.</p><p>수없이 넘어지고 흔들릴지라도 우리는 멈추지 않습니다.</p><p>끝까지 나아가 더 멀리 도달하기 위한 노력.</p><p><span class="highlight">이것이 밀레니엄입니다.</span></p>',
-gameTitle:'Our Game',
-gameDesc:'전쟁 속 기자의 이야기를 담은 비주얼 노벨',
-previewText:'미리보기',
-previewBtn:'더보기',
-previewBtnClose:'접기',
-supportMsg:'밀레니엄의 여정을 함께해 주세요.<br>여러분의 후원이 예술이 됩니다.',
-toast:'계좌번호가 복사되었습니다',
-bankName:'IBK 기업은행',
-accountName:'최재욱',
-accountTooltip:'클릭하여 계좌번호 복사'
-},
-en:{
-manifesto:'<p><span class="highlight">Millennium stands on three core values.</span></p><p>Love, Passion, and Effort.</p><p>We see games not as entertainment,<br>but as <span class="highlight">a form of art</span>.</p><p>Art is born from passion,<br>and passion never promises an easy path.</p><p>Even when we fall, we do not stop.</p><p>To move forward, and to reach further.</p><p><span class="highlight">This is Millennium.</span></p>',
-gameTitle:'Our Game',
-gameDesc:'A visual novel about a journalist in the midst of war',
-previewText:'Preview',
-previewBtn:'More',
-previewBtnClose:'Less',
-supportMsg:'Join us on our journey.<br>Your support becomes art.',
-toast:'Account number copied',
-bankName:'IBK Industrial Bank of Korea',
-accountName:'Jaeuk Choi',
-accountTooltip:'Click to copy account number'
+// 미리보기 토글
+function togglePreview() {
+  const panel = document.getElementById('preview-panel');
+  const btn = document.getElementById('preview-btn-text');
+  previewOpen = !previewOpen;
+  panel.classList.toggle('open', previewOpen);
+  btn.textContent = previewOpen
+    ? (currentLang === 'kr' ? '접기' : 'Less')
+    : (currentLang === 'kr' ? '더보기' : 'More');
 }
+
+// 라이트박스
+function openLightbox(index) {
+  currentSlide = index;
+  updateLightbox();
+  document.getElementById('lightbox').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function navLightbox(dir) {
+  currentSlide = (currentSlide + dir + screenshots.length) % screenshots.length;
+  updateLightbox();
+}
+
+function updateLightbox() {
+  document.getElementById('lightbox-img').src = screenshots[currentSlide];
+  document.getElementById('lightbox-counter').textContent =
+    (currentSlide + 1) + ' / ' + screenshots.length;
+}
+
+// 키보드 네비게이션
+document.addEventListener('keydown', (e) => {
+  if (!document.getElementById('lightbox').classList.contains('active')) return;
+  if (e.key === 'Escape') closeLightbox();
+  if (e.key === 'ArrowLeft') navLightbox(-1);
+  if (e.key === 'ArrowRight') navLightbox(1);
+});
+
+// 라이트박스 배경 클릭으로 닫기
+document.getElementById('lightbox').addEventListener('click', (e) => {
+  if (e.target === e.currentTarget) closeLightbox();
+});
+
+// 텍스트 데이터
+const i18n = {
+  kr: {
+    manifesto: `
+      <p><span class="highlight">밀레니엄이 추구하는 가치는 세 가지입니다.</span></p>
+      <p>사랑, 열정, 그리고 노력.</p>
+      <p>우리는 게임을 단순한 오락이 아닌,<br><span class="highlight">하나의 예술</span>로 바라봅니다.</p>
+      <p>예술은 열정 없이는 탄생할 수 없고,<br>그 열정은 결코 쉬운 길을 허락하지 않습니다.</p>
+      <p>수없이 넘어지고 흔들릴지라도 우리는 멈추지 않습니다.</p>
+      <p>끝까지 나아가 더 멀리 도달하기 위한 노력.</p>
+      <p><span class="highlight">이것이 밀레니엄입니다.</span></p>`,
+    gameTitle: 'Our Game',
+    gameDesc: '전쟁 속 기자의 이야기를 담은 비주얼 노벨',
+    previewText: '미리보기',
+    previewBtn: '더보기',
+    previewBtnClose: '접기',
+    supportMsg: '밀레니엄의 여정을 함께해 주세요.<br>여러분의 후원이 예술이 됩니다.',
+    toast: '계좌번호가 복사되었습니다',
+    bankName: 'IBK 기업은행',
+    accountName: '최재욱',
+    accountTooltip: '클릭하여 계좌번호 복사'
+  },
+  en: {
+    manifesto: `
+      <p><span class="highlight">Millennium stands on three core values.</span></p>
+      <p>Love, Passion, and Effort.</p>
+      <p>We see games not as entertainment,<br>but as <span class="highlight">a form of art</span>.</p>
+      <p>Art is born from passion,<br>and passion never promises an easy path.</p>
+      <p>Even when we fall, we do not stop.</p>
+      <p>To move forward, and to reach further.</p>
+      <p><span class="highlight">This is Millennium.</span></p>`,
+    gameTitle: 'Our Game',
+    gameDesc: 'A visual novel about a journalist in the midst of war',
+    previewText: 'Preview',
+    previewBtn: 'More',
+    previewBtnClose: 'Less',
+    supportMsg: 'Join us on our journey.<br>Your support becomes art.',
+    toast: 'Account number copied',
+    bankName: 'IBK Industrial Bank of Korea',
+    accountName: 'Jaeuk Choi',
+    accountTooltip: 'Click to copy account number'
+  }
 };
 
-function togglePreview(){
-var panel=document.getElementById('preview-panel');
-var btn=document.getElementById('preview-btn-text');
-previewOpen=!previewOpen;
-if(previewOpen){panel.classList.add('open')}else{panel.classList.remove('open')}
-btn.textContent=previewOpen?(currentLang==='kr'?'접기':'Less'):(currentLang==='kr'?'더보기':'More');
+let currentLang = 'kr';
+
+function setLang(lang) {
+  currentLang = lang;
+  const t = i18n[lang];
+  document.getElementById('manifesto').innerHTML = t.manifesto;
+  document.getElementById('game-title').textContent = t.gameTitle;
+  document.getElementById('game-desc').textContent = t.gameDesc;
+  document.getElementById('hero-overlay-text').textContent = t.previewText;
+  document.getElementById('preview-btn-text').textContent =
+    previewOpen ? t.previewBtnClose : t.previewBtn;
+  document.getElementById('support-msg').innerHTML = t.supportMsg;
+  document.getElementById('account-bank').textContent = t.bankName;
+  document.getElementById('account-name').textContent = t.accountName;
+  document.getElementById('account-box').title = t.accountTooltip;
+  document.getElementById('btn-kr').classList.toggle('active', lang === 'kr');
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  document.documentElement.lang = lang === 'kr' ? 'ko' : 'en';
 }
 
-function openLightbox(index){
-currentSlide=index;
-updateLightbox();
-document.getElementById('lightbox').classList.add('active');
-document.body.style.overflow='hidden';
+// 계좌 복사
+function copyAccount() {
+  navigator.clipboard.writeText('955-039253-01-014').then(() => {
+    const toast = document.getElementById('toast');
+    toast.textContent = i18n[currentLang].toast;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2000);
+  });
 }
 
-function closeLightbox(){
-document.getElementById('lightbox').classList.remove('active');
-document.body.style.overflow='';
-}
-
-function navLightbox(dir){
-currentSlide=(currentSlide+dir+screenshots.length)%screenshots.length;
-updateLightbox();
-}
-
-function updateLightbox(){
-document.getElementById('lightbox-img').src=screenshots[currentSlide];
-document.getElementById('lightbox-counter').textContent=(currentSlide+1)+' / '+screenshots.length;
-}
-
-document.addEventListener('keydown',function(e){
-if(!document.getElementById('lightbox').classList.contains('active'))return;
-if(e.key==='Escape')closeLightbox();
-if(e.key==='ArrowLeft')navLightbox(-1);
-if(e.key==='ArrowRight')navLightbox(1);
-});
-
-document.getElementById('lightbox').addEventListener('click',function(e){
-if(e.target===e.currentTarget)closeLightbox();
-});
-
-function setLang(lang){
-currentLang=lang;
-var t=i18n[lang];
-document.getElementById('manifesto').innerHTML=t.manifesto;
-document.getElementById('game-title').textContent=t.gameTitle;
-document.getElementById('game-desc').textContent=t.gameDesc;
-document.getElementById('hero-overlay-text').textContent=t.previewText;
-document.getElementById('preview-btn-text').textContent=previewOpen?t.previewBtnClose:t.previewBtn;
-document.getElementById('support-msg').innerHTML=t.supportMsg;
-document.getElementById('account-bank').textContent=t.bankName;
-document.getElementById('account-name').textContent=t.accountName;
-document.getElementById('account-box').title=t.accountTooltip;
-if(lang==='kr'){document.getElementById('btn-kr').classList.add('active');document.getElementById('btn-en').classList.remove('active');document.documentElement.lang='ko';}
-else{document.getElementById('btn-en').classList.add('active');document.getElementById('btn-kr').classList.remove('active');document.documentElement.lang='en';}
-}
-
-function copyAccount(){
-navigator.clipboard.writeText('955-039253-01-014').then(function(){
-var toast=document.getElementById('toast');
-toast.textContent=i18n[currentLang].toast;
-toast.classList.add('show');
-setTimeout(function(){toast.classList.remove('show')},2000);
-});
-}
-
+// 초기화
 setLang('kr');
 </script>
 </body>
