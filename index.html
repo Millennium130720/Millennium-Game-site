@@ -424,72 +424,6 @@ body::after{
   letter-spacing:3px;
 }
 
-/* 후원 섹션 */
-.support-card{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:2px;
-  padding:36px 28px;
-  text-align:center;
-}
-.support-card .support-msg{
-  font-size:0.88rem;
-  color:rgba(232,228,223,0.7);
-  margin-bottom:22px;
-  line-height:1.9;
-}
-.account-box{
-  display:inline-block;
-  border:1px solid var(--border);
-  padding:18px 32px;
-  border-radius:2px;
-  background:rgba(255,255,255,0.02);
-  position:relative;
-  cursor:pointer;
-  transition:border-color 0.3s;
-}
-.account-box:hover{
-  border-color:var(--accent-dim);
-}
-.account-bank{
-  font-size:0.75rem;
-  color:var(--accent);
-  letter-spacing:2px;
-  text-transform:uppercase;
-  margin-bottom:6px;
-}
-.account-number{
-  font-family:var(--font-display);
-  font-size:1.3rem;
-  letter-spacing:2px;
-  color:var(--fg);
-}
-.account-name{
-  font-size:0.78rem;
-  color:var(--muted);
-  margin-top:4px;
-}
-.copy-toast{
-  position:fixed;
-  bottom:30px;
-  left:50%;
-  transform:translateX(-50%) translateY(20px);
-  background:var(--accent);
-  color:var(--bg);
-  padding:10px 24px;
-  border-radius:2px;
-  font-size:0.82rem;
-  letter-spacing:1px;
-  opacity:0;
-  transition:all 0.4s ease;
-  pointer-events:none;
-  z-index:200;
-}
-.copy-toast.show{
-  opacity:1;
-  transform:translateX(-50%) translateY(0);
-}
-
 /* 커뮤니티 링크 */
 .community-grid{
   display:grid;
@@ -567,9 +501,6 @@ footer p{
   <button id="btn-kr" class="active" onclick="setLang('kr')">KR</button>
   <button id="btn-en" onclick="setLang('en')">EN</button>
 </div>
-
-<!-- 복사 토스트 -->
-<div class="copy-toast" id="toast">계좌번호가 복사되었습니다</div>
 
 <!-- 라이트박스 -->
 <div class="lightbox" id="lightbox">
@@ -657,19 +588,6 @@ footer p{
             <img src="screenshot_5.png" alt="Le Reportage 스크린샷 5">
           </div>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 후원 -->
-  <section class="section" aria-label="후원하기">
-    <h2 class="section-title" id="support-title">Support</h2>
-    <div class="support-card">
-      <p class="support-msg" id="support-msg">밀레니엄의 여정을 함께해 주세요.<br>여러분의 후원이 예술이 됩니다.</p>
-      <div class="account-box" onclick="copyAccount()" id="account-box" title="클릭하여 계좌번호 복사">
-        <p class="account-bank" id="account-bank">IBK 기업은행</p>
-        <p class="account-number">955-039253-01-014</p>
-        <p class="account-name" id="account-name">최재욱</p>
       </div>
     </div>
   </section>
@@ -770,12 +688,7 @@ const i18n = {
     gameDesc: '전쟁 속 기자의 이야기를 담은 비주얼 노벨',
     previewText: '미리보기',
     previewBtn: '더보기',
-    previewBtnClose: '접기',
-    supportMsg: '밀레니엄의 여정을 함께해 주세요.<br>여러분의 후원이 예술이 됩니다.',
-    toast: '계좌번호가 복사되었습니다',
-    bankName: 'IBK 기업은행',
-    accountName: '최재욱',
-    accountTooltip: '클릭하여 계좌번호 복사'
+    previewBtnClose: '접기'
   },
   en: {
     manifesto: `
@@ -790,12 +703,7 @@ const i18n = {
     gameDesc: 'A visual novel about a journalist in the midst of war',
     previewText: 'Preview',
     previewBtn: 'More',
-    previewBtnClose: 'Less',
-    supportMsg: 'Join us on our journey.<br>Your support becomes art.',
-    toast: 'Account number copied',
-    bankName: 'IBK Industrial Bank of Korea',
-    accountName: 'Jaeuk Choi',
-    accountTooltip: 'Click to copy account number'
+    previewBtnClose: 'Less'
   }
 };
 
@@ -810,23 +718,9 @@ function setLang(lang) {
   document.getElementById('hero-overlay-text').textContent = t.previewText;
   document.getElementById('preview-btn-text').textContent =
     previewOpen ? t.previewBtnClose : t.previewBtn;
-  document.getElementById('support-msg').innerHTML = t.supportMsg;
-  document.getElementById('account-bank').textContent = t.bankName;
-  document.getElementById('account-name').textContent = t.accountName;
-  document.getElementById('account-box').title = t.accountTooltip;
   document.getElementById('btn-kr').classList.toggle('active', lang === 'kr');
   document.getElementById('btn-en').classList.toggle('active', lang === 'en');
   document.documentElement.lang = lang === 'kr' ? 'ko' : 'en';
-}
-
-// 계좌 복사
-function copyAccount() {
-  navigator.clipboard.writeText('955-039253-01-014').then(() => {
-    const toast = document.getElementById('toast');
-    toast.textContent = i18n[currentLang].toast;
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 2000);
-  });
 }
 
 // 초기화
